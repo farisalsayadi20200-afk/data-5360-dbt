@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: ecoessentials_landing
+    database: annagiles
+    schema: ecoessentials_dw_source
+    tables:
+      - name: customer
+      - name: marketing_emails
+      - name: order
+      - name: order_line
+      - name: product
+      - name: promotional_campaign
+
+
