@@ -8,6 +8,7 @@ sources:
       - name: customer
       - name: marketing_emails
       - name: order
+        identifier: '"ORDER"'
       - name: order_line
       - name: product
       - name: promotional_campaign
