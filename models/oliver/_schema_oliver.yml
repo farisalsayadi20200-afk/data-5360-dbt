@@ -3,6 +3,10 @@ version: 2
 models:
   - name: oliver_dim_customer
     description: "oliver customer dimension"
+    columns:
+      - name: customer_key
+        tests:
+          - unique
   - name: oliver_dim_date
     description: "oliver date dimension"
   - name: oliver_dim_employee
@@ -13,5 +17,32 @@ models:
     description: "oliver store dimension"
   - name: fact_sales
     description: "oliver sales fact"
+    columns:
+      - name: product_key
+        description: "A foreign key to the product dimension"
+        tests:
+          - not_null
+      - name: customer_key
+        tests:
+          - relationships:
+              to: ref('oliver_dim_customer')
+              field: customer_key
   - name: fact_certification
     description: "employee certifications fact. the grain is employee + date. each row represents a certification for an employee on a given date."
+  - name: stg_employee_certifications
+    description: "staging model for employee certifications"
+    columns: 
+      - name: certification_name
+        tests:
+          - accepted_values:
+              values:
+                - "Conflict Resolution"
+                - "Customer Service Excellence"
+                - "Inventory Management"
+                - "Workplace Safety"
+                - "Strategic Retail Operations"
+                - "Cash Handling and Security"
+                - "Point of Sale Operations"
+                - "Product Knowledge Level 2"
+                - "Leadership and Coaching"
+    
