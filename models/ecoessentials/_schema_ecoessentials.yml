@@ -3,17 +3,70 @@ version: 2
 models:
   - name: dim_ecodate
     description: "Ecoessentials Date Dimension"
+    columns:
+      - name: date_day
+        tests:
+          - unique
   - name: dim_email
     description: "Ecoessentials Email Dimension"
+    columns:
+      - name: emailname
+        tests:
+          - not_null
   - name: dim_campaign
     description: "Ecoessentials Campaign Dimension"
+    columns: 
+      - name: campaign_discount
+        tests:
+          - accepted_values:
+              values:
+                - 0.10
+                - 0.15
+                - 0.20
+                - 0.25
+                - 0.30
+                - 0.35
   - name: dim_ecocustomer
     description: "Ecoessentials Customer Dimension"
+    columns:
+      - name: customer_key
+        tests:
+          - not_null
   - name: dim_product
     description: "Ecoessentials Product Dimension"
+    columns: 
+      - name: product_key
+        tests:
+          - unique
   - name: dim_eventtype
     description: "Ecoessentials Event Type Dimension"
+    columns:
+      - name: eventtype
+        tests:
+          - accepted_values:
+              values:
+               - "Sent"
+               - "Open"
+               - "Click"
   - name: fact_ecosales
     description: "Ecoessentials Sales Fact. One row per product per order per customer per campaign per date."
+    columns:
+      - name: customer_key
+        tests: 
+          - relationships:
+              to: ref('dim_ecocustomer')
+              field: customer_key
   - name: fact_emailevent
     description: "Ecoessentials Email Event Fact. One row per event type per email per customer per campaign per date."
+    columns:
+      - name: customer_key
+        tests: 
+          - relationships:
+              to: ref('dim_ecocustomer')
+              field: customer_key
+  - name: stg_marketing_emails
+    description: "Staging table for fact_emailevent"
+    columns: 
+      - name: email_id
+        tests:
+          - not_null

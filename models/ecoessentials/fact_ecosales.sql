@@ -5,10 +5,10 @@
 
 select
     {{ dbt_utils.generate_surrogate_key(['o.order_id']) }} as order_key,
-    {{ dbt_utils.generate_surrogate_key(['c.customer_id']) }} as customer_key,
-    {{ dbt_utils.generate_surrogate_key(['p.product_id']) }} as product_key,
-    {{ dbt_utils.generate_surrogate_key(['ca.campaign_id']) }} as campaign_key,
-    {{ dbt_utils.generate_surrogate_key(['d.date_day']) }} as date_key,
+    c.customer_key,
+    p.product_key,
+    ca.campaign_key,
+    d.date_key,
     o.order_id,
     ol.quantity,
     pr.price,
