@@ -13,17 +13,19 @@ select
     1 as event_count
 from {{ source('ecoessentials_landing', 'marketing_emails')}} m 
 
-inner join {{ ref('dim_email') }} e
-    on e.emailid = m.emailid
+inner join {{ ref('dim_ecocustomer') }} c
+    on c.customer_id = TRY_CAST(m.customerid AS NUMBER)
 
 inner join {{ ref('dim_campaign') }} ca
-    on ca.campaign_id = m.campaignid
+    on ca.campaign_id = TRY_CAST(m.campaignid AS NUMBER)
 
-inner join {{ ref('dim_ecocustomer') }} c
-    on c.customer_id = m.customerid
+inner join {{ ref('dim_email') }} e
+    on e.emailid = TRY_CAST(m.emailid AS NUMBER)
 
 inner join {{ ref('dim_eventtype') }} ev
     on ev.eventtype = m.eventtype
 
 inner join {{ ref('dim_ecodate') }} d
-    on d.date_day = cast(m.eventtimestamp as date)
+    on d.date_day = DATE(m.eventtimestamp)
+
+where m.eventtimestamp IS NOT NULL
