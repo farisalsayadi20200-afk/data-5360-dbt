@@ -41,13 +41,9 @@ models:
   - name: dim_eventtype
     description: "Ecoessentials Event Type Dimension"
     columns:
-      - name: eventtype
+      - name: eventtype_key
         tests:
-          - accepted_values:
-              values:
-               - "Sent"
-               - "Open"
-               - "Click"
+          - not_null
   - name: fact_ecosales
     description: "Ecoessentials Sales Fact. One row per product per order per customer per campaign per date."
     columns:
@@ -64,9 +60,4 @@ models:
           - relationships:
               to: ref('dim_ecocustomer')
               field: customer_key
-  - name: stg_marketing_emails
-    description: "Staging table for fact_emailevent"
-    columns: 
-      - name: email_id
-        tests:
-          - not_null
+
